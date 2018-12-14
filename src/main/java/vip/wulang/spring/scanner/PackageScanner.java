@@ -1,25 +1,43 @@
 package vip.wulang.spring.scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
- * The class is used for scanning packages.
+ * This class is used to scan the Java files contained in the package.
  *
  * @author CoolerWu on 2018/12/9.
  * @version 1.0
  */
-@SuppressWarnings("all")
-public class PackageScanner {
+public class PackageScanner implements Scanner {
+    /** logger */
+    private static final Logger LOGGER = LoggerFactory.getLogger(PackageScanner.class);
     private static final String EMPTY_STRING = "";
     private static final String POINT_STRING = ".";
     private static final char POINT_CHAR = '.';
-    private static final char SPRIT_CHAR = '/';
+    private static final char SLASH_CHAR = '/';
     private static final String POINT_CLASS_STRING = ".class";
-    private static final String SPRIT_STRING = "/";
+    private static final String SLASH_STRING = "/";
 
+    private static PackageScanner instance;
+
+    /**
+     * This private variable represents the root directory of the package to
+     * be scanned and defaults to all files, for example, "vip.wulang.base".
+     */
     private String basePackage;
+
+    /**
+     * Scans result storage.
+     */
+    private List<String> resultStorage = new ArrayList<>();
 
     public PackageScanner() {
         basePackage = EMPTY_STRING;
@@ -29,30 +47,43 @@ public class PackageScanner {
         this.basePackage = basePackage;
     }
 
-    public List<String> startPackageScan() {
-        File rootFile = replacePointToFileString();
-        List<String> container = findClasses(rootFile);
-
-        return container;
+    /**
+     * Start scanning.
+     * @return scanning results
+     */
+    @Override
+    public List<String> startScan() {
+        LOGGER.info("start scanning");
+        return (resultStorage = findClasses(replacePointToFileString()));
     }
 
+    /**
+     * Replace the dot with a slash.
+     * @return object of {@link File}.
+     */
+    @SuppressWarnings("all")
     private File replacePointToFileString() {
         File file;
         if (EMPTY_STRING.equals(basePackage)) {
             file = new File(
                     Thread.currentThread().getContextClassLoader().getResource(EMPTY_STRING).getPath(),
-                    SPRIT_STRING
+                    SLASH_STRING
             );
         } else {
             file = new File(
                     Thread.currentThread().getContextClassLoader().getResource(EMPTY_STRING).getPath(),
-                    basePackage.replace(POINT_CHAR, SPRIT_CHAR)
+                    basePackage.replace(POINT_CHAR, SLASH_CHAR)
             );
         }
 
         return file;
     }
 
+    /**
+     * Look for the Java Class file.
+     * @param file object of {@link File}
+     * @return scanning results
+     */
     private List<String> findClasses(File file) {
         List<String> classPathContainer = new ArrayList<>();
         String basePackageLocal;
@@ -69,6 +100,13 @@ public class PackageScanner {
         return classPathContainer;
     }
 
+    /**
+     * Search each folder.
+     * @param file object of {@link File}
+     * @param container scanning results
+     * @param name hierarchical structure
+     */
+    @SuppressWarnings("all")
     private void findAnyPathJava(File file, List<String> container, String name) {
         if (file.isDirectory() && file.listFiles() != null) {
             for (File childFile : file.listFiles()) {
@@ -83,5 +121,22 @@ public class PackageScanner {
             container.add(name + POINT_STRING +
                     file.getName().substring(0, file.getName().lastIndexOf(POINT_STRING)));
         }
+    }
+
+    /**
+     * Gets the result of scanning all files.
+     * @return scanning results
+     */
+    public static List<String> getTheResultOfScanningAllFiles() {
+        if (instance == null) {
+            synchronized (PackageScanner.class) {
+                if (instance == null) {
+                    instance = new PackageScanner();
+                    instance.startScan();
+                }
+            }
+        }
+
+        return instance.resultStorage;
     }
 }
