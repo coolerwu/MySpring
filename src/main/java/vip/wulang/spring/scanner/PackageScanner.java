@@ -4,10 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -64,14 +62,15 @@ public class PackageScanner implements Scanner {
     @SuppressWarnings("all")
     private File replacePointToFileString() {
         File file;
+        URL rootURL = Thread.currentThread().getContextClassLoader().getResource(EMPTY_STRING);
         if (EMPTY_STRING.equals(basePackage)) {
             file = new File(
-                    Thread.currentThread().getContextClassLoader().getResource(EMPTY_STRING).getPath(),
+                    rootURL.getPath(),
                     SLASH_STRING
             );
         } else {
             file = new File(
-                    Thread.currentThread().getContextClassLoader().getResource(EMPTY_STRING).getPath(),
+                    rootURL.getPath(),
                     basePackage.replace(POINT_CHAR, SLASH_CHAR)
             );
         }

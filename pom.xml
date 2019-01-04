@@ -13,10 +13,10 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <slf4j.version>1.7.25</slf4j.version>
+    <junit.version>4.12</junit.version>
   </properties>
 
   <dependencies>
-
     <!-- log start -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -30,9 +30,14 @@
     </dependency>
     <!-- log end -->
 
-
-
-
+    <!-- junit start -->
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+    </dependency>
+    <!-- junit end -->
   </dependencies>
 
   <build>
