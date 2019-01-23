@@ -63,6 +63,7 @@ public class PackageScanner implements Scanner {
     private File replacePointToFileString() {
         File file;
         URL rootURL = Thread.currentThread().getContextClassLoader().getResource(EMPTY_STRING);
+
         if (EMPTY_STRING.equals(basePackage)) {
             file = new File(
                     rootURL.getPath(),
@@ -95,7 +96,6 @@ public class PackageScanner implements Scanner {
         }
 
         findAnyPathJava(file, classPathContainer, basePackageLocal);
-
         return classPathContainer;
     }
 

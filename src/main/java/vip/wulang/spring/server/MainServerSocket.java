@@ -1,8 +1,8 @@
-package vip.wulang.server;
+package vip.wulang.spring.server;
 
-import vip.wulang.server.exception.MainServerSocketException;
-import vip.wulang.server.request.HttpRequest;
-import vip.wulang.utils.StringUtils;
+import vip.wulang.spring.exception.MainServerSocketException;
+import vip.wulang.spring.server.request.HttpRequest;
+import vip.wulang.spring.utils.StringUtils;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * It is main class for running {@link ServerSocket}.
+ *
  * @author CoolerWu on 2019/1/5.
  * @version 1.0
  */
@@ -25,27 +27,41 @@ public class MainServerSocket {
     private static final String UTF8_STRING = "UTF-8";
 
     private ServerSocket server;
-    private HttpRequest request;
 
-    public MainServerSocket(int port) throws MainServerSocketException {
+    MainServerSocket(int port) throws MainServerSocketException {
         try {
             this.server = new ServerSocket(port);
-            this.request = new HttpRequest();
         } catch (IOException e) {
             throw new MainServerSocketException();
         }
     }
 
-    public void start() throws MainServerSocketException {
+    HttpRequest start() throws MainServerSocketException {
         try {
             Socket accept_server = server.accept();
-            decodeInputStream(accept_server.getInputStream());
+            return decodeInputStream(accept_server.getInputStream());
         } catch (IOException e) {
             throw new MainServerSocketException();
         }
     }
 
-    private void decodeInputStream(InputStream is)
+    Socket startOnly() throws MainServerSocketException {
+        try {
+            return server.accept();
+        } catch (IOException e) {
+            throw new MainServerSocketException();
+        }
+    }
+
+    HttpRequest startDecodeIS(Socket socket) throws MainServerSocketException {
+        try {
+            return decodeInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            throw new MainServerSocketException();
+        }
+    }
+
+    private HttpRequest decodeInputStream(InputStream is)
             throws MainServerSocketException, UnsupportedEncodingException {
         BufferedReader br = new BufferedReader(new InputStreamReader(is, UTF8_STRING));
         try {
@@ -56,6 +72,7 @@ public class MainServerSocket {
                     throw new MainServerSocketException();
                 }
 
+                HttpRequest request = new HttpRequest();
                 request.setMethod(status[0]);
                 request.setUri(status[1]);
                 request.setVersion(status[2]);
@@ -81,14 +98,18 @@ public class MainServerSocket {
                 if (content_len != 0) {
                     char[] content_char_arr = new char[content_len];
                     if (br.read(content_char_arr) == -1) {
-                        return;
+                        throw new MainServerSocketException();
                     }
 
                     request.setExtra(new String(content_char_arr));
                 }
+
+                return request;
             }
         } catch (Exception e) {
-            throw new MainServerSocketException();
+            throw new MainServerSocketException(e);
         }
+
+        return null;
     }
 }

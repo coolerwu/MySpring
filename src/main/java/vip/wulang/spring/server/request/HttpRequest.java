@@ -1,4 +1,4 @@
-package vip.wulang.server.request;
+package vip.wulang.spring.server.request;
 
 import java.util.Map;
 
