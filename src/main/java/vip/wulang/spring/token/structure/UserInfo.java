@@ -1,10 +1,6 @@
 package vip.wulang.spring.token.structure;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This class is data of user. It is for saving in container.
@@ -13,14 +9,29 @@ import java.util.Objects;
  * @version 1.0
  */
 public class UserInfo {
+    private static final int BOUND = 10000;
+    private static Random random = new Random();
+
     private String username;
     private String password;
     private long loginTime;
-    private List<Map<String, Object>> extra = new ArrayList<>();
+    private int secretKey;
 
-    public UserInfo(String username) {
+    public UserInfo(String username, String password) {
         this.username = username;
-        loginTime = Instant.now().getEpochSecond();
+        this.password = password;
+        loginTime = System.currentTimeMillis();
+        secretKey = random.nextInt(BOUND);
+    }
+
+    public void updateSecretKey() {
+        int secretKey;
+
+        do {
+            secretKey = random.nextInt(BOUND);
+        } while (this.secretKey == secretKey);
+
+        this.secretKey = secretKey;
     }
 
     @Override
@@ -28,12 +39,24 @@ public class UserInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserInfo userInfo = (UserInfo) o;
-        return Objects.equals(username, userInfo.username);
+        return loginTime == userInfo.loginTime &&
+                secretKey == userInfo.secretKey &&
+                Objects.equals(username, userInfo.username) &&
+                Objects.equals(password, userInfo.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username);
+        return Objects.hash(username, password, loginTime, secretKey);
+    }
+
+    @Override
+    public String toString() {
+        return
+                "username='" + username +
+                "&password='" + password +
+                "&loginTime=" + loginTime +
+                "&secretKey=" + secretKey;
     }
 
     public String getUsername() {
@@ -60,11 +83,11 @@ public class UserInfo {
         this.loginTime = loginTime;
     }
 
-    public List<Map<String, Object>> getExtra() {
-        return extra;
+    public int getSecretKey() {
+        return secretKey;
     }
 
-    public void setExtra(List<Map<String, Object>> extra) {
-        this.extra = extra;
+    public void setSecretKey(int secretKey) {
+        this.secretKey = secretKey;
     }
 }

@@ -231,4 +231,12 @@ public class StringUtils {
     public static String[] toStringArray(Enumeration<String> enumeration) {
         return toStringArray(Collections.list(enumeration));
     }
+
+    public static boolean isEmpty(String var) {
+        if (Objects.isNull(var)) {
+            return false;
+        }
+
+        return "".equals(var);
+    }
 }
