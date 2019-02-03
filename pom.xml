@@ -16,6 +16,7 @@
     <junit.version>4.12</junit.version>
     <dom4j.version>1.6.1</dom4j.version>
     <commons-lang.version>2.6</commons-lang.version>
+    <jjwt.version>0.9.0</jjwt.version>
   </properties>
 
   <dependencies>
@@ -56,6 +57,12 @@
       <version>${commons-lang.version}</version>
     </dependency>
     <!-- commons-lang end -->
+
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt</artifactId>
+      <version>${jjwt.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

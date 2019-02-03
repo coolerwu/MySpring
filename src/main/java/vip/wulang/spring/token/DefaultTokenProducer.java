@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The class represents token producer.
+ * notes: It is recommended that only low-level projects be tested.
  *
  * @author CoolerWu on 2018/1/24.
  * @version 1.0
@@ -25,6 +26,29 @@ public class DefaultTokenProducer implements ITokenProducer {
     @Override
     public String productToken(String username, String password) {
         UserInfo user = new UserInfo(username, password);
+        String token = doProductToken(user);
+
+        if (!StringUtils.isEmpty(token)) {
+            if (Objects.nonNull(usernameToTokenStorage.get(username))) {
+                String tokenOriginal = usernameToTokenStorage.get(username);
+                usernameToTokenStorage.remove(username);
+                tokenStorage.remove(tokenOriginal);
+            }
+
+            while (Objects.nonNull(tokenStorage.get(token))) {
+                user.updateSecretKey();
+                token = doProductToken(user);
+            }
+
+            tokenStorage.put(token, user);
+            usernameToTokenStorage.put(username, token);
+            return token;
+        }
+
+        return null;
+    }
+
+    private String doProductToken(UserInfo user) {
         String tokenContains = user.toString();
         String token = "";
         boolean isException = false;
@@ -39,19 +63,7 @@ public class DefaultTokenProducer implements ITokenProducer {
             LOGGER.error("NoSuchAlgorithmException Exception");
         }
 
-        if (StringUtils.isEmpty(token)) {
-            if (Objects.nonNull(usernameToTokenStorage.get(username))) {
-                String tokenOriginal = usernameToTokenStorage.get(username);
-                usernameToTokenStorage.remove(username);
-                tokenStorage.remove(tokenOriginal);
-            }
-
-            tokenStorage.put(token, user);
-            usernameToTokenStorage.put(username, token);
-            return token;
-        }
-
-        return null;
+        return token;
     }
 
     @Override
@@ -105,21 +117,14 @@ public class DefaultTokenProducer implements ITokenProducer {
         if (Objects.nonNull(user = tokenStorage.get(tokenHeader))) {
             clearAboutUser(user);
             user.updateSecretKey();
-            String tokenContains = user.toString();
-            String token = "";
-            boolean isException = false;
+            String token = doProductToken(user);
 
-            try {
-                token = TokenUtil.messageDigest(tokenContains);
-            } catch (NoSuchAlgorithmException e) {
-                isException = true;
+            while (Objects.nonNull(tokenStorage.get(token))) {
+                user.updateSecretKey();
+                token = doProductToken(user);
             }
 
-            if (isException) {
-                LOGGER.error("NoSuchAlgorithmException Exception");
-            }
-
-            if (StringUtils.isEmpty(token)) {
+            if (!StringUtils.isEmpty(token)) {
                 tokenStorage.put(token, user);
                 usernameToTokenStorage.put(user.getUsername(), token);
             }

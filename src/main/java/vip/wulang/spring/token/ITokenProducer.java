@@ -3,8 +3,7 @@ package vip.wulang.spring.token;
 import vip.wulang.spring.token.structure.UserInfo;
 
 /**
- * The interface is used for producing token. We should follow it and can replace
- * {@link vip.wulang.spring.token.DefaultTokenProducer}.
+ * The interface is used for producing token. We should follow it and can replace.
  *
  * @author CoolerWu on 2018/1/24.
  * @version 1.0.
