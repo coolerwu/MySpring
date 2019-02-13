@@ -4,17 +4,14 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import vip.wulang.spring.file.io.ClassPathResource;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 /**
  * The class is used for searching authentication.xml and parsing authentication.xml.
@@ -23,12 +20,10 @@ import java.util.List;
  * @version 1.0
  */
 public class LookupAndParseAuthXml {
-    /** logger */
-    private static final Logger LOGGER = LoggerFactory.getLogger(LookupAndParseAuthXml.class);
     private List<String> containContainer = new ArrayList<>();
     private List<String> equalContainer = new ArrayList<>();
 
-    public LookupAndParseAuthXml() throws FileNotFoundException, DocumentException {
+    public LookupAndParseAuthXml() throws IOException, DocumentException {
         lookupAuthXml();
     }
 
@@ -38,31 +33,21 @@ public class LookupAndParseAuthXml {
      * @throws DocumentException {@link DocumentException}.
      */
     @SuppressWarnings("all")
-    private void lookupAuthXml() throws FileNotFoundException, DocumentException {
-        InputStream is = null;
-
-        try {
-            is = new ClassPathResource("./auth/authentication.xml").getInputStream();
-        } catch (Exception e) {
-            LOGGER.info("Don`t find in ./auth/authentication.xml.");
-        }
-
+    private void lookupAuthXml() throws IOException, DocumentException {
+        InputStream is = new ClassPathResource("./auth/authentication.xml").getInputStream();
         if (is != null) {
             loadingData(is);
             return;
         }
 
-        LOGGER.info("Actively looking for authentication.xml in project.");
         String classpath = Thread.currentThread().getContextClassLoader().getResource("").getFile();
         File file = new File(classpath);
         String[] result = new String[1];
         traversalAllFilesToGetAuthenticationXml(file, result);
-
         if (result[0] == null) {
             throw new FileNotFoundException("Not Found: authentication.xml in project.");
         }
 
-        LOGGER.info("Find it in project.");
         loadingData(new FileInputStream(result[0]));
     }
 

@@ -1,7 +1,5 @@
 package vip.wulang.spring.token;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import vip.wulang.spring.token.structure.UserInfo;
 import vip.wulang.spring.token.utils.TokenUtil;
 import vip.wulang.spring.utils.StringUtils;
@@ -18,8 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  */
 public class DefaultTokenProducer implements ITokenProducer {
-    /** logger */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTokenProducer.class);
     private Map<String, UserInfo> tokenStorage = new ConcurrentHashMap<>();
     private Map<String, String> usernameToTokenStorage = new ConcurrentHashMap<>();
 
@@ -50,19 +46,12 @@ public class DefaultTokenProducer implements ITokenProducer {
 
     private String doProductToken(UserInfo user) {
         String tokenContains = user.toString();
-        String token = "";
-        boolean isException = false;
-
+        String token;
         try {
             token = TokenUtil.messageDigest(tokenContains);
         } catch (NoSuchAlgorithmException e) {
-            isException = true;
+            token = "";
         }
-
-        if (isException) {
-            LOGGER.error("NoSuchAlgorithmException Exception");
-        }
-
         return token;
     }
 

@@ -1,4 +1,8 @@
 # MySpring
+## 2019/02/13
+<font size="4">&emsp;&emsp;删除sl4j，因为jar中，无法输出日志的问题
+## 2019/02/02
+<font size="4">&emsp;&emsp;新增一些行为上的功能
 ## 2019/01/24
 <font size="4">&emsp;&emsp;自定义Token的生产，以及防止表单重复提交
 ## 2019/01/23

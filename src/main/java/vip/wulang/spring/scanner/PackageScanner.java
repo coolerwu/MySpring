@@ -1,8 +1,5 @@
 package vip.wulang.spring.scanner;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,8 +12,6 @@ import java.util.List;
  * @version 1.0
  */
 public class PackageScanner implements Scanner {
-    /** logger */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PackageScanner.class);
     private static final String EMPTY_STRING = "";
     private static final String POINT_STRING = ".";
     private static final char POINT_CHAR = '.';
@@ -51,7 +46,6 @@ public class PackageScanner implements Scanner {
      */
     @Override
     public List<String> startScan() {
-        LOGGER.info("start scanning");
         return (resultStorage = findClasses(replacePointToFileString()));
     }
 
