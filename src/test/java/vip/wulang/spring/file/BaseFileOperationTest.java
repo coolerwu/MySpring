@@ -1,14 +1,15 @@
 package vip.wulang.spring.file;
 
 import org.junit.Test;
-import vip.wulang.spring.scanner.Scanner;
+import vip.wulang.spring.exception.ConstructorOneMoreException;
+import vip.wulang.spring.exception.NewInstanceFailedException;
+import vip.wulang.spring.core.scanner.Scanner;
+import vip.wulang.spring.core.JavaUsb;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.concurrent.Callable;
@@ -141,5 +142,40 @@ public class BaseFileOperationTest {
         b.start();
 
         Thread.sleep(1000);
+    }
+
+    public static class A {
+        private B b;
+
+        public A(B b) {
+            this.b = b;
+        }
+    }
+
+    public static class B {
+        private A a;
+
+        public B(A a) {
+            this.a = a;
+        }
+    }
+
+    public static class C {
+        private A a;
+        private B b;
+
+        public C(A a, B b) {
+            this.a = a;
+            this.b = b;
+        }
+    }
+
+    @Test
+    public void test08() throws ConstructorOneMoreException, NewInstanceFailedException {
+        JavaUsb.getInstance().addClassIntoStorage(
+                B.class, C.class, A.class
+        );
+
+        System.out.println(JavaUsb.getInstance().getBean(C.class).a);
     }
 }

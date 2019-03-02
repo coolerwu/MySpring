@@ -1,4 +1,4 @@
-package vip.wulang.spring.scanner;
+package vip.wulang.spring.core.scanner;
 
 import java.io.File;
 import java.net.URL;
