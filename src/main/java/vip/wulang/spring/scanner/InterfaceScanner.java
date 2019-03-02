@@ -12,7 +12,7 @@ public class InterfaceScanner implements Scanner {
     private Class interfaceClass;
     private String className;
 
-    private InterfaceScanner() {}
+    public InterfaceScanner() {}
 
     public InterfaceScanner(Class interfaceClass) {
         this.interfaceClass = interfaceClass;

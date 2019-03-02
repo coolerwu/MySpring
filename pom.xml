@@ -12,15 +12,14 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <slf4j.version>1.7.25</slf4j.version>
     <junit.version>4.12</junit.version>
     <dom4j.version>1.6.1</dom4j.version>
     <commons-lang.version>2.6</commons-lang.version>
     <jjwt.version>0.9.0</jjwt.version>
+    <netty.version>4.1.32.Final</netty.version>
   </properties>
 
   <dependencies>
-
     <!-- junit start -->
     <dependency>
       <groupId>junit</groupId>
@@ -50,6 +49,12 @@
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
       <version>${jjwt.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>${netty.version}</version>
     </dependency>
   </dependencies>
 
