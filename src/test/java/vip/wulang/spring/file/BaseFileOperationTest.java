@@ -1,10 +1,13 @@
 package vip.wulang.spring.file;
 
 import org.junit.Test;
+import vip.wulang.spring.core.ApplicationContextStarter;
 import vip.wulang.spring.exception.ConstructorOneMoreException;
 import vip.wulang.spring.exception.NewInstanceFailedException;
 import vip.wulang.spring.core.scanner.Scanner;
-import vip.wulang.spring.core.JavaUsb;
+import vip.wulang.spring.core.BeanApplicationContext;
+import vip.wulang.spring.spring.B;
+import vip.wulang.spring.spring.Config;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -82,7 +85,7 @@ public class BaseFileOperationTest {
     }
 
     @Test
-    public void test05() {
+    public void test05() throws IOException, ClassNotFoundException {
         ServiceLoader<Scanner> load = ServiceLoader.load(Scanner.class);
 
         for (Scanner scanner : load) {
@@ -144,38 +147,14 @@ public class BaseFileOperationTest {
         Thread.sleep(1000);
     }
 
-    public static class A {
-        private B b;
-
-        public A(B b) {
-            this.b = b;
-        }
-    }
-
-    public static class B {
-        private A a;
-
-        public B(A a) {
-            this.a = a;
-        }
-    }
-
-    public static class C {
-        private A a;
-        private B b;
-
-        public C(A a, B b) {
-            this.a = a;
-            this.b = b;
-        }
-    }
-
     @Test
-    public void test08() throws ConstructorOneMoreException, NewInstanceFailedException {
-        JavaUsb.getInstance().addClassIntoStorage(
-                B.class, C.class, A.class
-        );
-
-        System.out.println(JavaUsb.getInstance().getBean(C.class).a);
+    public void test08() throws ConstructorOneMoreException, NewInstanceFailedException, IOException {
+        ApplicationContextStarter a = new ApplicationContextStarter(Config.class);
+        a.start();
+        a.over();
+        B bean = a.getBean(B.class);
+        System.out.println(bean);
+        bean = (B) a.getBean("B");
+        System.out.println(bean);
     }
 }

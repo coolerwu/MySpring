@@ -1,4 +1,4 @@
-package vip.wulang.spring.utils.exception;
+package vip.wulang.spring.exception;
 
 /**
  * Exception.

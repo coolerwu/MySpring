@@ -1,5 +1,7 @@
 # MySpring
-## 2019/02/13
+## 2019/03/04
+<font size="4">&emsp;&emsp;完成Spring的包扫描以及构造注入方法
+## 2019/03/02
 <font size="4">&emsp;&emsp;构建仿真Spring注入以及依赖查找
 ## 2019/02/13
 <font size="4">&emsp;&emsp;删除sl4j，因为jar中，无法输出日志的问题

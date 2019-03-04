@@ -1,4 +1,4 @@
-package vip.wulang.spring.utils;
+package vip.wulang.spring.util;
 
 import java.util.*;
 
@@ -8,7 +8,6 @@ import java.util.*;
  * @author CoolerWu on 2019/1/5.
  * @version 1.0
  */
-@SuppressWarnings("unused, WeakerAccess")
 public class StringUtils {
     private static final String EMPTY_STRING = "";
     private static final String SPACE_STRING = " ";
@@ -238,5 +237,9 @@ public class StringUtils {
         }
 
         return "".equals(var);
+    }
+
+    public static boolean notEmpty(String var) {
+        return !isEmpty(var);
     }
 }

@@ -1,7 +1,7 @@
 package vip.wulang.spring.file.io;
 
 import org.apache.commons.lang.ClassUtils;
-import vip.wulang.spring.utils.StringUtils;
+import vip.wulang.spring.util.StringUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

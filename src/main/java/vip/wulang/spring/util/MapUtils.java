@@ -1,13 +1,13 @@
-package vip.wulang.spring.utils;
+package vip.wulang.spring.util;
 
-import vip.wulang.spring.utils.exception.DoubleStringToHashMapFailException;
+import vip.wulang.spring.exception.DoubleStringToHashMapFailException;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * Operate map utils.
+ * Operate map util.
  *
  * @author CoolerWu on 2018/12/27.
  * @version 1.0

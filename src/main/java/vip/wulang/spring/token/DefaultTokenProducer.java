@@ -2,7 +2,7 @@ package vip.wulang.spring.token;
 
 import vip.wulang.spring.token.structure.UserInfo;
 import vip.wulang.spring.token.utils.TokenUtil;
-import vip.wulang.spring.utils.StringUtils;
+import vip.wulang.spring.util.StringUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.*;

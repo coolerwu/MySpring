@@ -1,5 +1,6 @@
 package vip.wulang.spring.core.scanner;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -14,5 +15,5 @@ public interface Scanner {
      * Start scanning.
      * @return scanning results
      */
-    List startScan();
+    List startScan() throws IOException;
 }

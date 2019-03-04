@@ -12,35 +12,27 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
+ * Java core class.
+ *
  * @author CoolerWu on 2019/3/2.
  * @version 1.0
  */
-public class JavaUsb {
+public class BeanApplicationContext implements ApplicationContext {
     private static final int ZERO = 0;
-    private static JavaUsb instance;
 
-    public static JavaUsb getInstance() {
-        if (instance == null) {
-            synchronized (JavaUsb.class) {
-                if (instance == null) {
-                    instance = new JavaUsb();
-                }
-            }
-        }
-
-        return instance;
-    }
-
-    private JavaUsb() {
+    public BeanApplicationContext() {
     }
 
     private ConcurrentMap<Class, ServiceProperty> originStorage = new ConcurrentHashMap<>();
     private ConcurrentMap<String, Class> nameStorage = new ConcurrentHashMap<>();
     private volatile boolean exception = false;
     private List<DependencyClass> dependencyClasses = new LinkedList<>();
+    private List<Class> readyLoadClass = new LinkedList<>();
 
-    public void addClassIntoStorage(Class... classes)
+    void addClassIntoStorage(List<Class> classes)
             throws ConstructorOneMoreException, NewInstanceFailedException {
+        readyLoadClass.addAll(classes);
+
         try {
             for (Class cls : classes) {
                 parseClassToServiceProperty(cls);
@@ -85,6 +77,10 @@ public class JavaUsb {
                     continue;
                 }
 
+                if (!readyLoadClass.contains(cl1)) {
+                    continue;
+                }
+
                 if (checkWhetherDependency(cls, cl1)) {
                     stopAll();
                 }
@@ -103,7 +99,13 @@ public class JavaUsb {
             int index = 0;
 
             for (Class cl1 : parameterTypes) {
-                parameters[index] = originStorage.get(cl1).getOwner();
+                ServiceProperty serviceProperty = originStorage.get(cl1);
+
+                if (serviceProperty == null) {
+                    throw new NullPointerException();
+                }
+
+                parameters[index] = serviceProperty.getOwner();
                 index++;
             }
 
@@ -124,6 +126,22 @@ public class JavaUsb {
 
     public Object getBean(String name) {
         return originStorage.get(nameStorage.get(name)).getOwner();
+    }
+
+    public Class getSuperClassFromBean(String name) {
+        return getSuperClassFromBean(nameStorage.get(name));
+    }
+
+    public Class getSuperClassFromBean(Class cls) {
+        return originStorage.get(cls).getSuperClass();
+    }
+
+    public Class[] getInterfacesFromBean(String name) {
+        return getInterfacesFromBean(nameStorage.get(name));
+    }
+
+    public Class[] getInterfacesFromBean(Class cls) {
+        return originStorage.get(cls).getInterfaces();
     }
 
     private static class DependencyClass {
@@ -155,6 +173,10 @@ public class JavaUsb {
         System.out.println("=                               =");
         System.out.println("=                               =");
         System.out.println("=================================");
+        stop();
+    }
+
+    void stop() {
         System.exit(ZERO);
     }
 }
