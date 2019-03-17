@@ -4,14 +4,14 @@ import vip.wulang.spring.token.structure.UserInfo;
 import vip.wulang.spring.token.utils.TokenUtil;
 import vip.wulang.spring.util.StringUtils;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The class represents token producer.
+ * The class represents default token producer.
  * notes: It is recommended that only low-level projects be tested.
  *
+ * update: by CoolerWu on 2018/3/8.
  * @author CoolerWu on 2018/1/24.
  * @version 1.0
  */
@@ -22,9 +22,10 @@ public class DefaultTokenProducer implements ITokenProducer {
     @Override
     public String productToken(String username, String password) {
         UserInfo user = new UserInfo(username, password);
-        String token = doProductToken(user);
+        String token = TokenUtil.createToken(user);
 
         if (!StringUtils.isEmpty(token)) {
+            // username may exist.
             if (Objects.nonNull(usernameToTokenStorage.get(username))) {
                 String tokenOriginal = usernameToTokenStorage.get(username);
                 usernameToTokenStorage.remove(username);
@@ -33,7 +34,8 @@ public class DefaultTokenProducer implements ITokenProducer {
 
             while (Objects.nonNull(tokenStorage.get(token))) {
                 user.updateSecretKey();
-                token = doProductToken(user);
+                // add secret
+                token = TokenUtil.createToken(user);
             }
 
             tokenStorage.put(token, user);
@@ -42,17 +44,6 @@ public class DefaultTokenProducer implements ITokenProducer {
         }
 
         return null;
-    }
-
-    private String doProductToken(UserInfo user) {
-        String tokenContains = user.toString();
-        String token;
-        try {
-            token = TokenUtil.messageDigest(tokenContains);
-        } catch (NoSuchAlgorithmException e) {
-            token = "";
-        }
-        return token;
     }
 
     @Override
@@ -106,11 +97,12 @@ public class DefaultTokenProducer implements ITokenProducer {
         if (Objects.nonNull(user = tokenStorage.get(tokenHeader))) {
             clearAboutUser(user);
             user.updateSecretKey();
-            String token = doProductToken(user);
+            user.setLoginTime(System.currentTimeMillis());
+            String token = TokenUtil.createToken(user);
 
             while (Objects.nonNull(tokenStorage.get(token))) {
                 user.updateSecretKey();
-                token = doProductToken(user);
+                token = TokenUtil.createToken(user);
             }
 
             if (!StringUtils.isEmpty(token)) {

@@ -1,4 +1,6 @@
 # MySpring
+## 2019/03/17
+<font size="4">&emsp;&emsp;新增redis存储令牌以及用户信息
 ## 2019/03/04
 <font size="4">&emsp;&emsp;完成Spring的包扫描以及构造注入方法
 ## 2019/03/02

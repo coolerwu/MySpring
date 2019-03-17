@@ -5,9 +5,11 @@ import java.io.IOException;
 /**
  * File Operation.
  *
+ * @deprecated nio.
  * @author CoolerWu on 2019/1/23.
  * @version 1.0
  */
+@Deprecated
 public interface IFileOperation {
     /**
      * If file exists, object will save it.

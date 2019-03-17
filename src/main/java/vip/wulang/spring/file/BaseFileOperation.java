@@ -6,10 +6,11 @@ import java.util.Objects;
 /**
  * This class is base on {@link AbstractFileOperation}.
  *
+ * @deprecated nio.
  * @author CoolerWu on 2019/1/23.
  * @version 1.0
  */
-@SuppressWarnings("WeakerAccess")
+@Deprecated
 public class BaseFileOperation extends AbstractFileOperation {
     private static BaseFileOperation instance;
 

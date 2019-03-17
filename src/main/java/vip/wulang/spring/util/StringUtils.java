@@ -3,7 +3,7 @@ package vip.wulang.spring.util;
 import java.util.*;
 
 /**
- * 字符串操作类{@link String}.
+ * String utils.
  *
  * @author CoolerWu on 2019/1/5.
  * @version 1.0

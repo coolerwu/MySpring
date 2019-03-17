@@ -1,5 +1,7 @@
 package vip.wulang.spring.token.utils;
 
+import vip.wulang.spring.token.structure.UserInfo;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -38,5 +40,22 @@ public class TokenUtil {
         }
 
         return result.toString();
+    }
+
+    public static String createToken(UserInfo info) {
+        return doCreateToken(info);
+    }
+
+    private static String doCreateToken(UserInfo info) {
+        String tokenContains = info.toString();
+        String token;
+
+        try {
+            token = TokenUtil.messageDigest(tokenContains);
+        } catch (NoSuchAlgorithmException e) {
+            token = "";
+        }
+
+        return token;
     }
 }

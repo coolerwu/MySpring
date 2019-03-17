@@ -6,7 +6,7 @@
 
   <groupId>vip.wulang</groupId>
   <artifactId>MySpring</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
 
   <name>MySpring</name>
 
@@ -16,7 +16,7 @@
     <dom4j.version>1.6.1</dom4j.version>
     <commons-lang.version>2.6</commons-lang.version>
     <jjwt.version>0.9.0</jjwt.version>
-    <netty.version>4.1.32.Final</netty.version>
+    <jedis.version>2.9.0</jedis.version>
   </properties>
 
   <dependencies>
@@ -51,11 +51,14 @@
       <version>${jjwt.version}</version>
     </dependency>
 
+    <!-- jedis start -->
     <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-all</artifactId>
-      <version>${netty.version}</version>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>${jedis.version}</version>
     </dependency>
+    <!-- jedis end -->
+
   </dependencies>
 
   <build>

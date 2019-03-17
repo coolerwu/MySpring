@@ -9,10 +9,11 @@ import java.util.Objects;
 /**
  * It implements {@link IFileOperation}.
  *
+ * @deprecated nio.
  * @author CoolerWu on 2019/1/23.
  * @version 1.0
  */
-@SuppressWarnings("WeakerAccess")
+@Deprecated
 public abstract class AbstractFileOperation implements IFileOperation {
     private static final String EMPTY_STRING = "";
     private File file;
