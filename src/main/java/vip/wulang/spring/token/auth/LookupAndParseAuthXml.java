@@ -1,4 +1,4 @@
-package vip.wulang.spring.auth;
+package vip.wulang.spring.token.auth;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;

@@ -1,4 +1,6 @@
 # MySpring
+## 2019/03/20
+<font size="4">&emsp;&emsp;修改redis存储的两次登录之前token存在的问题
 ## 2019/03/17
 <font size="4">&emsp;&emsp;新增redis存储令牌以及用户信息
 ## 2019/03/04

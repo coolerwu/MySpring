@@ -1,5 +1,6 @@
 package vip.wulang.spring.file;
 
+import com.sun.imageio.plugins.common.BitFile;
 import org.junit.Test;
 import vip.wulang.spring.core.ApplicationContextStarter;
 import vip.wulang.spring.exception.ConstructorOneMoreException;
@@ -9,6 +10,7 @@ import vip.wulang.spring.core.BeanApplicationContext;
 import vip.wulang.spring.spring.B;
 import vip.wulang.spring.spring.Config;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
@@ -156,5 +158,10 @@ public class BaseFileOperationTest {
         System.out.println(bean);
         bean = (B) a.getBean("B");
         System.out.println(bean);
+    }
+
+    @Test
+    public void test09() {
+        System.out.println(new File(System.getProperty("user.dir"), "head/address/default/default_head_img.png"));
     }
 }

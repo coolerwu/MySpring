@@ -98,26 +98,26 @@ public class RedisTokenProducer implements ITokenProducer {
                 throw new EmptyStringException("localhost is empty.");
             }
 
-            if (jedis.exists(token)) {
-                Map<String, String> s = jedis.hgetAll(token);
+            if (jedis.exists(username)) {
+                String token_origin = jedis.get(username);
+                jedis.del(username);
+                jedis.del(token_origin);
 
-                if (s.get(USERNAME).equals(username)) {
-                    return token;
-                } else {
-                    while (jedis.exists(token)) {
-                        user.updateSecretKey();
-                        // add secret
-                        token = TokenUtil.createToken(user);
-                    }
+                while (jedis.exists(token)) {
+                    user.updateSecretKey();
+                    // add secret
+                    token = TokenUtil.createToken(user);
                 }
             }
 
             // set seconds
             jedis.expire(token, WEEK_SECOND);
+            jedis.expire(username, WEEK_SECOND);
             Map<String, String> map = new HashMap<>();
             map.put(USERNAME, username);
             map.put(PASSWORD, password);
             jedis.hmset(token, map);
+            jedis.set(username, token);
             return token;
         } finally {
             if (jedis != null) {
@@ -146,7 +146,13 @@ public class RedisTokenProducer implements ITokenProducer {
 
         try {
             jedis = jedisPool.getResource();
-            jedis.del(tokenHeader);
+
+            if (jedis.exists(tokenHeader)) {
+                Map<String, String> map = jedis.hgetAll(tokenHeader);
+                String username = jedis.get(map.get(USERNAME));
+                jedis.del(tokenHeader);
+                jedis.del(username);
+            }
         } finally {
             if (jedis != null) {
                 jedis.close();
