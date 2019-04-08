@@ -32,6 +32,7 @@ public class WebMessage {
         return this;
     }
 
+    @Deprecated
     public WebMessage addReason(Object value) {
         this.extra.put("reason", value);
         return this;
