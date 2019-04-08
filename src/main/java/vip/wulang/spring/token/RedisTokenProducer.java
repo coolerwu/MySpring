@@ -100,14 +100,21 @@ public class RedisTokenProducer implements ITokenProducer {
 
             if (jedis.exists(username)) {
                 String token_origin = jedis.get(username);
+                Map<String, String> map = jedis.hgetAll(token_origin);
                 jedis.del(username);
                 jedis.del(token_origin);
+                // set seconds
+                jedis.expire(token_origin, WEEK_SECOND);
+                jedis.expire(username, WEEK_SECOND);
+                jedis.hmset(token_origin, map);
+                jedis.set(username, token_origin);
+                return token_origin;
+            }
 
-                while (jedis.exists(token)) {
-                    user.updateSecretKey();
-                    // add secret
-                    token = TokenUtil.createToken(user);
-                }
+            while (jedis.exists(token)) {
+                user.updateSecretKey();
+                // add secret
+                token = TokenUtil.createToken(user);
             }
 
             // set seconds

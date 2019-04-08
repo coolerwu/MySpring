@@ -1,12 +1,10 @@
 package vip.wulang.spring.file;
 
-import com.sun.imageio.plugins.common.BitFile;
 import org.junit.Test;
 import vip.wulang.spring.core.ApplicationContextStarter;
 import vip.wulang.spring.exception.ConstructorOneMoreException;
 import vip.wulang.spring.exception.NewInstanceFailedException;
 import vip.wulang.spring.core.scanner.Scanner;
-import vip.wulang.spring.core.BeanApplicationContext;
 import vip.wulang.spring.spring.B;
 import vip.wulang.spring.spring.Config;
 
@@ -163,5 +161,10 @@ public class BaseFileOperationTest {
     @Test
     public void test09() {
         System.out.println(new File(System.getProperty("user.dir"), "head/address/default/default_head_img.png"));
+    }
+
+    @Test
+    public void test10() {
+        System.out.println(Long.toHexString(0x123AB));
     }
 }

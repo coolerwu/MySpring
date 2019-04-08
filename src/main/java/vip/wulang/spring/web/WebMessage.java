@@ -32,6 +32,26 @@ public class WebMessage {
         return this;
     }
 
+    public WebMessage addReason(Object value) {
+        this.extra.put("reason", value);
+        return this;
+    }
+
+    /**
+     * This is used for returning failure code and reason.
+     *
+     * @param status status code.
+     * @param reason failed reason.
+     * @return WebMessage object.
+     */
+    public static WebMessage addCodeAndReason(long status, Object reason) {
+        WebMessage webMessage = new WebMessage();
+        webMessage.code = 400;
+        webMessage.extra.put("status", Long.toHexString(status));
+        webMessage.extra.put("reason", reason);
+        return webMessage;
+    }
+
     public void setCode(int code) {
         this.code = code;
     }
