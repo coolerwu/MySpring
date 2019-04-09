@@ -165,6 +165,6 @@ public class BaseFileOperationTest {
 
     @Test
     public void test10() {
-        System.out.println(Long.toHexString(0x123AB));
+        System.out.println("0x" + Long.toHexString(0x123AB).toUpperCase());
     }
 }

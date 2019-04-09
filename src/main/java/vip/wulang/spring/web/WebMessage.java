@@ -47,7 +47,7 @@ public class WebMessage {
     public static WebMessage addFailCodeStatus(long status) {
         WebMessage webMessage = new WebMessage();
         webMessage.code = 400;
-        webMessage.extra.put("status", Long.toHexString(status));
+        webMessage.extra.put("status", "0x" + Long.toHexString(status).toUpperCase());
         return webMessage;
     }
 
