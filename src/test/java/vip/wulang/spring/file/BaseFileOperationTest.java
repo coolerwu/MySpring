@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ServiceLoader;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.locks.LockSupport;
@@ -165,6 +167,15 @@ public class BaseFileOperationTest {
 
     @Test
     public void test10() {
-        System.out.println("0x" + Long.toHexString(0x123AB).toUpperCase());
+        List<String> list = new LinkedList<>();
+        while (true) {
+            String s = UUID.randomUUID().toString();
+            if (list.contains(s)) {
+                break;
+            }
+            System.out.println(s);
+            list.add(s);
+        }
+        System.out.println(list);
     }
 }

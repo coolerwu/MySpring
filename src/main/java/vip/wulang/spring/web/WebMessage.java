@@ -32,7 +32,6 @@ public class WebMessage {
         return this;
     }
 
-    @Deprecated
     public WebMessage addReason(Object value) {
         this.extra.put("reason", value);
         return this;
@@ -65,5 +64,13 @@ public class WebMessage {
 
     public Map<String, Object> getExtra() {
         return extra;
+    }
+
+    @Override
+    public String toString() {
+        return "WebMessage{" +
+                "code=" + code +
+                ", extra=" + extra +
+                '}';
     }
 }
