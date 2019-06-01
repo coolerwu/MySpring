@@ -156,7 +156,7 @@ public class RedisTokenProducer implements ITokenProducer {
 
             if (jedis.exists(tokenHeader)) {
                 Map<String, String> map = jedis.hgetAll(tokenHeader);
-                String username = jedis.get(map.get(USERNAME));
+                String username = map.get(USERNAME);
                 jedis.del(tokenHeader);
                 jedis.del(username);
             }

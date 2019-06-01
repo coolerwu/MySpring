@@ -1,19 +1,19 @@
 package vip.wulang.spring.core;
 
-import vip.wulang.spring.annotation.ComponenetScan;
-import vip.wulang.spring.annotation.Component;
-import vip.wulang.spring.annotation.Configuration;
-import vip.wulang.spring.annotation.Import;
+import vip.wulang.spring.core.annotation.ComponentScan;
+import vip.wulang.spring.core.annotation.Component;
+import vip.wulang.spring.core.annotation.Configuration;
+import vip.wulang.spring.core.annotation.Import;
 import vip.wulang.spring.core.scanner.UrlScanner;
-import vip.wulang.spring.exception.ConstructorOneMoreException;
-import vip.wulang.spring.exception.DeadStartException;
-import vip.wulang.spring.exception.NewInstanceFailedException;
+import vip.wulang.spring.exception.*;
 import vip.wulang.spring.util.StringUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * It just is as registration that component is registered.
+ *
  * @author CoolerWu on 2019/3/3.
  * @version 1.0
  */
@@ -25,7 +25,7 @@ public class ComponentRegistration {
     ComponentRegistration(BeanApplicationContext beanApplicationContext) {
         if (beanApplicationContext == null) {
             exception = true;
-            throw new NullPointerException();
+            throw new BeanApplicationContextNullException();
         }
 
         this.beanApplicationContext = beanApplicationContext;
@@ -38,8 +38,13 @@ public class ComponentRegistration {
             return;
         }
 
+        // scan info of main config class.
         operateConfiguration(mainConfigClass);
+
+        // register component.
         List<String> result = scanAll();
+
+        //
         doExecuteBeanApplicationContextMethod(result);
     }
 
@@ -65,13 +70,13 @@ public class ComponentRegistration {
             }
         }
 
-        ComponenetScan componenetScan = configClass.getAnnotation(ComponenetScan.class);
+        ComponentScan componentScan = configClass.getAnnotation(ComponentScan.class);
 
-        if (componenetScan == null) {
+        if (componentScan == null) {
             return;
         }
 
-        String value = componenetScan.value();
+        String value = componentScan.value();
 
         if (StringUtils.isEmpty(value)) {
             packages.add(configClass.getPackage().getName());
@@ -93,7 +98,7 @@ public class ComponentRegistration {
             }
         } catch (Exception e) {
             exception = true;
-            e.printStackTrace();
+            throw new ScanAllException();
         }
 
         return result;

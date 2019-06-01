@@ -13,6 +13,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
+ * This is used for scanning all classes, not jar.
+ *
  * @author CoolerWu on 2019/3/3.
  * @version 1.0
  */

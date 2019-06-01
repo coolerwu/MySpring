@@ -1,7 +1,5 @@
 package vip.wulang.spring.exception;
 
-import vip.wulang.spring.server.MainServerSocket;
-
 /**
  * This class is used for intercepting exception of {@link MainServerSocket}.
  *

@@ -21,7 +21,14 @@ public class WebMessage {
         return webMessage;
     }
 
+    @Deprecated
     public static WebMessage fail() {
+        WebMessage webMessage = new WebMessage();
+        webMessage.code = 400;
+        return webMessage;
+    }
+
+    public static WebMessage failure() {
         WebMessage webMessage = new WebMessage();
         webMessage.code = 400;
         return webMessage;

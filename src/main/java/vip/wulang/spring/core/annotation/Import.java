@@ -1,4 +1,4 @@
-package vip.wulang.spring.annotation;
+package vip.wulang.spring.core.annotation;
 
 import java.lang.annotation.*;
 

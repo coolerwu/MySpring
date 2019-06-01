@@ -1,4 +1,4 @@
-package vip.wulang.spring.annotation;
+package vip.wulang.spring.core.annotation;
 
 import java.lang.annotation.*;
 
@@ -9,6 +9,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Target(ElementType.TYPE)
-public @interface ComponenetScan {
-    String value() default "";
+public @interface Configuration {
 }

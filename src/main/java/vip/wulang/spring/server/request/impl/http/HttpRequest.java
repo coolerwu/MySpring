@@ -1,4 +1,7 @@
-package vip.wulang.spring.server.request;
+package vip.wulang.spring.server.request.impl.http;
+
+import vip.wulang.spring.server.request.CastType;
+import vip.wulang.spring.server.request.IRequest;
 
 import java.util.Map;
 
@@ -8,8 +11,8 @@ import java.util.Map;
  * @author CoolerWu on 2019/1/5.
  * @version 1.0
  */
-public class HttpRequest {
-    private String method;
+public class HttpRequest implements IRequest {
+    private HttpMethod method;
     private String uri;
     private String version;
     private Map<String, String> headers;
@@ -18,7 +21,7 @@ public class HttpRequest {
     public HttpRequest() {
     }
 
-    public HttpRequest(String method, String uri, String version, Map<String, String> headers, String extra) {
+    public HttpRequest(HttpMethod method, String uri, String version, Map<String, String> headers, String extra) {
         this.method = method;
         this.uri = uri;
         this.version = version;
@@ -26,11 +29,16 @@ public class HttpRequest {
         this.extra = extra;
     }
 
-    public String getMethod() {
+    @Override
+    public CastType castType() {
+        return CastType.HTTP11;
+    }
+
+    public HttpMethod getMethod() {
         return method;
     }
 
-    public void setMethod(String method) {
+    public void setMethod(HttpMethod method) {
         this.method = method;
     }
 

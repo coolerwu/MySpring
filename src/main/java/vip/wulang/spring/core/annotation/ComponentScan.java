@@ -1,4 +1,4 @@
-package vip.wulang.spring.annotation;
+package vip.wulang.spring.core.annotation;
 
 import java.lang.annotation.*;
 
@@ -8,6 +8,7 @@ import java.lang.annotation.*;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Target({ElementType.METHOD, ElementType.TYPE})
-public @interface Component {
+@Target(ElementType.TYPE)
+public @interface ComponentScan {
+    String value() default "";
 }

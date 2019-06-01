@@ -1,4 +1,7 @@
-package vip.wulang.spring.server.request;
+package vip.wulang.spring.server.request.impl.http;
+
+import vip.wulang.spring.server.request.CastType;
+import vip.wulang.spring.server.request.IResponse;
 
 import java.util.Map;
 
@@ -8,7 +11,7 @@ import java.util.Map;
  * @author CoolerWu on 2019/1/5.
  * @version 1.0
  */
-public class HttpResponse {
+public class HttpResponse implements IResponse {
     private String version;
     private int code;
     private String status;
@@ -16,6 +19,11 @@ public class HttpResponse {
     private String message;
 
     public HttpResponse() {
+    }
+
+    @Override
+    public CastType castType() {
+        return CastType.HTTP11;
     }
 
     public String getVersion() {
