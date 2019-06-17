@@ -1,5 +1,6 @@
 package vip.wulang.spring.core;
 
+import vip.wulang.spring.core.impl.BeanApplicationContext;
 import vip.wulang.spring.exception.ConstructorOneMoreException;
 import vip.wulang.spring.exception.DeadStartException;
 import vip.wulang.spring.exception.NewInstanceFailedException;
@@ -38,7 +39,7 @@ public class ApplicationContextStarter implements ApplicationContext {
             componentRegistration.over();
         } catch (DeadStartException e) {
             e.printStackTrace();
-            beanApplicationContext.stop();
+            beanApplicationContext.stopAll();
         }
     }
 

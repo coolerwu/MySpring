@@ -32,11 +32,11 @@ public class PackageScanner implements Scanner {
      */
     private List<String> resultStorage = new ArrayList<>();
 
-    public PackageScanner() {
+    PackageScanner() {
         basePackage = EMPTY_STRING;
     }
 
-    public PackageScanner(String basePackage) {
+    PackageScanner(String basePackage) {
         this.basePackage = basePackage;
     }
 

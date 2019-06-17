@@ -16,6 +16,7 @@
     <dom4j.version>1.6.1</dom4j.version>
     <commons-lang.version>2.6</commons-lang.version>
     <jedis.version>2.9.0</jedis.version>
+    <netty.version>4.1.9.Final</netty.version>
   </properties>
 
   <dependencies>
@@ -51,6 +52,14 @@
       <version>${jedis.version}</version>
     </dependency>
     <!-- jedis end -->
+
+    <!-- netty-all start -->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>${netty.version}</version>
+    </dependency>
+    <!-- netty-all end -->
 
   </dependencies>
 

@@ -4,6 +4,7 @@ import vip.wulang.spring.core.annotation.ComponentScan;
 import vip.wulang.spring.core.annotation.Component;
 import vip.wulang.spring.core.annotation.Configuration;
 import vip.wulang.spring.core.annotation.Import;
+import vip.wulang.spring.core.impl.BeanApplicationContext;
 import vip.wulang.spring.core.scanner.UrlScanner;
 import vip.wulang.spring.exception.*;
 import vip.wulang.spring.util.StringUtils;

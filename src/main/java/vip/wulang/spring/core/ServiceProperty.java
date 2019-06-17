@@ -14,7 +14,7 @@ public class ServiceProperty {
     private Class superClass;
     private String ownerName;
 
-    ServiceProperty(Object owner, Class ownerClass, Class[] interfaces,
+    public ServiceProperty(Object owner, Class ownerClass, Class[] interfaces,
                            Class superClass, String ownerName) {
         this.owner = owner;
         this.ownerClass = ownerClass;
@@ -23,19 +23,19 @@ public class ServiceProperty {
         this.ownerName = ownerName;
     }
 
-    Object getOwner() {
+    public Object getOwner() {
         return owner;
     }
 
-    Class getOwnerClass() {
+    public Class getOwnerClass() {
         return ownerClass;
     }
 
-    Class[] getInterfaces() {
+    public Class[] getInterfaces() {
         return interfaces;
     }
 
-    Class getSuperClass() {
+    public Class getSuperClass() {
         return superClass;
     }
 

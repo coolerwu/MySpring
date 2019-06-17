@@ -1,5 +1,7 @@
-package vip.wulang.spring.core;
+package vip.wulang.spring.core.impl;
 
+import vip.wulang.spring.core.ApplicationContext;
+import vip.wulang.spring.core.ServiceProperty;
 import vip.wulang.spring.exception.ConstructorOneMoreException;
 import vip.wulang.spring.exception.NewInstanceFailedException;
 
@@ -29,7 +31,15 @@ public class BeanApplicationContext implements ApplicationContext {
     private List<DependencyClass> dependencyClasses = new LinkedList<>();
     private List<Class> readyLoadClass = new LinkedList<>();
 
-    void addClassIntoStorage(List<Class> classes)
+    ConcurrentMap<Class, ServiceProperty> getOriginStorage() {
+        return originStorage;
+    }
+
+    ConcurrentMap<String, Class> getNameStorage() {
+        return nameStorage;
+    }
+
+    public void addClassIntoStorage(List<Class> classes)
             throws ConstructorOneMoreException, NewInstanceFailedException {
         readyLoadClass.addAll(classes);
 
@@ -165,7 +175,7 @@ public class BeanApplicationContext implements ApplicationContext {
         return false;
     }
 
-    private void stopAll() {
+    public void stopAll() {
         System.out.println("=================================");
         System.out.println("=                               =");
         System.out.println("=                               =");
@@ -176,7 +186,7 @@ public class BeanApplicationContext implements ApplicationContext {
         stop();
     }
 
-    void stop() {
+    private void stop() {
         System.exit(ZERO);
     }
 }
