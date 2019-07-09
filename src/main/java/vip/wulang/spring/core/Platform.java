@@ -24,6 +24,7 @@ public enum Platform {
     OSF1("OSF1"),
     OpenVMS("OpenVMS"),
     Others("Others");
+    private String description;
 
     Platform(String desc){
         this.description = desc;
@@ -32,6 +33,4 @@ public enum Platform {
     public String toString(){
         return description;
     }
-
-    private String description;
 }

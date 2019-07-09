@@ -9,8 +9,6 @@ package vip.wulang.spring.core;
 public interface AutowiredClass {
     /**
      * Autowired class from storage.
-     *
-     * @param cls Java class.
      */
-    void autowired(Class<?> cls);
+    void start();
 }

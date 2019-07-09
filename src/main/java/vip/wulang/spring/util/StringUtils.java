@@ -3,9 +3,9 @@ package vip.wulang.spring.util;
 import java.util.*;
 
 /**
- * String utils.
+ * 字符串工具类。
  *
- * @author CoolerWu on 2019/1/5.
+ * @author CoolerWu on 2019/1/5
  * @version 1.0
  */
 public class StringUtils {
@@ -13,6 +13,16 @@ public class StringUtils {
     private static final String SPACE_STRING = " ";
 
     private StringUtils() {
+    }
+
+    /**
+     * 根据source字符串，把其中所符合oldChar的字符替换成newChar。
+     */
+    public static String replaceAll(String source, char oldChar, char newChar) {
+        while ((source.indexOf(oldChar)) != -1) {
+            source = source.replace(oldChar, newChar);
+        }
+        return source;
     }
 
     public static String[] splitString(String var1, String var2) {
